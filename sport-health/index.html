@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运动带来的好处清单</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6; /* 淡雅背景色 */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px; /* 内容最大宽度 */
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 渐变色头部 */
+            color: #fff;
+            border-radius: 8px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+
+        /* 折叠面板样式 */
+        .accordion-item {
+            background-color: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden; /* 配合动画 */
+        }
+
+        .accordion-header {
+            background-color: #e9ecef; /* 头部浅灰色 */
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .accordion-header:hover {
+            background-color: #dde2e6;
+        }
+
+        .accordion-header h2 {
+            margin: 0;
+            font-size: 1.4em;
+            font-weight: 500;
+            color: #2c3e50; /* 深蓝灰色标题 */
+        }
+
+        .accordion-header .icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .accordion-toggle {
+            font-size: 1.5em;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-toggle {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            padding: 0px 20px; /* 初始padding为0，展开后增加 */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* 平滑过渡 */
+        }
+
+        .accordion-item.active .accordion-content {
+            /* max-height 设置一个足够大的值，确保内容能完全显示 */
+            max-height: 1000px; /* 预估一个足够大的值 */
+            padding: 15px 20px;
+        }
+
+        .accordion-content ul {
+            list-style-type: none; /* 去掉默认列表样式 */
+            padding-left: 0;
+        }
+
+        .accordion-content li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee; /* 项目间分隔线 */
+            font-size: 1em;
+            color: #555;
+        }
+
+        .accordion-content li:last-child {
+            border-bottom: none;
+        }
+
+        .summary-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e6f7ff; /* 淡蓝色背景 */
+            border-left: 5px solid #1890ff; /* 蓝色强调线 */
+            border-radius: 5px;
+        }
+
+        .summary-section h3 {
+            margin-top: 0;
+            color: #1890ff;
+        }
+
+        .summary-section p {
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .accordion-header h2 {
+                font-size: 1.2em;
+            }
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            .accordion-header h2 {
+                font-size: 1.1em;
+            }
+             .accordion-header .icon {
+                font-size: 1.2em;
+            }
+            .accordion-toggle {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>运动带来的好处清单</h1>
+        </header>
+
+        <div id="benefitsAccordion">
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">🧬</span>细胞和分子层面</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>激活自噬机制，清除受损线粒体和蛋白聚集，延缓细胞老化</li>
+                        <li>促进线粒体新生，提高细胞能量代谢效率</li>
+                        <li>增强抗氧化能力，减少氧化应激损伤</li>
+                        <li>调节炎症反应，降低慢性炎症水平</li>
+                        <li>促进神经营养因子（如BDNF）分泌，支持神经元生长和修复</li>
+                        <li>改善胰岛素信号通路，增强细胞对胰岛素的敏感性</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">❤️</span>心血管系统</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>降低血压，改善血管弹性与内皮功能</li>
+                        <li>增强心脏泵血能力，提升心输出量</li>
+                        <li>改善血脂水平，降低坏胆固醇（LDL）和甘油三酯，提高好胆固醇（HDL）</li>
+                        <li>预防和缓解动脉粥样硬化</li>
+                        <li>降低心律失常和心肌梗死风险</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">🌬️</span>呼吸系统</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>提升肺活量和呼吸效率</li>
+                        <li>增强气体交换能力和耐氧性能</li>
+                        <li>改善慢性呼吸系统疾病症状（如哮喘、慢阻肺）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">⚙️</span>代谢和内分泌系统</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>促进葡萄糖代谢，防治2型糖尿病</li>
+                        <li>促进脂肪代谢，帮助控制体重和减少腹部脂肪</li>
+                        <li>调节激素分泌（如生长激素、睾酮、胰岛素）</li>
+                        <li>改善甲状腺功能，促进新陈代谢</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">🧠</span>神经系统和认知功能</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>增强记忆力和学习能力</li>
+                        <li>促进神经可塑性，延缓认知衰退</li>
+                        <li>减少阿尔茨海默病和帕金森病的风险</li>
+                        <li>缓解焦虑和抑郁症状，提升情绪稳定性</li>
+                        <li>改善睡眠质量和深度</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">🛡️</span>免疫系统</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>增强免疫细胞活性，提高抗病能力</li>
+                        <li>改善免疫调节，降低自身免疫疾病风险</li>
+                        <li>减少慢性炎症反应</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">💪</span>肌肉骨骼系统</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>增强肌肉力量和耐力</li>
+                        <li>促进骨密度增加，预防骨质疏松</li>
+                        <li>改善关节灵活性和稳定性，预防损伤</li>
+                        <li>促进软组织（韧带、肌腱）修复和重建</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">🍎</span>消化系统</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>促进胃肠蠕动，预防便秘</li>
+                        <li>改善肠道菌群平衡，促进消化吸收</li>
+                        <li>降低炎症性肠病风险</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">⚖️</span>体重控制与外观</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>消耗多余热量，帮助减脂</li>
+                        <li>增加肌肉质量，塑造体型</li>
+                        <li>改善皮肤血液循环，促进皮肤健康</li>
+                        <li>降低肥胖相关疾病风险</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">😊</span>心理健康与社交</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>缓解压力，释放内啡肽，提升幸福感</li>
+                        <li>改善自尊和自信心</li>
+                        <li>促进社交互动，增强社会归属感</li>
+                        <li>增强抗压力能力，提升心理韧性</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2><span class="icon">🌟</span>其他综合益处</h2>
+                    <span class="accordion-toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>延长寿命，降低全因死亡率</li>
+                        <li>提升日常生活活动能力和生活质量</li>
+                        <li>改善工作效率和注意力集中度</li>
+                        <li>促进身体协调性和平衡，降低跌倒风险</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="summary-section">
+            <h3>总结</h3>
+            <p>运动不仅是“锻炼身体”，它是多层次、多系统的健康调节器，通过调节细胞自噬、激活代谢、改善心脑功能等机制，带来持久且深远的健康益处。</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 健康生活倡导</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const toggle = item.querySelector('.accordion-toggle');
+                // const content = item.querySelector('.accordion-content'); // Not strictly needed here
+
+                header.addEventListener('click', () => {
+                    // 先关闭所有已打开的面板（如果需要手风琴效果，一次只开一个）
+                    // 如果希望可以同时打开多个，则注释掉下面这段
+                    // accordionItems.forEach(otherItem => {
+                    //     if (otherItem !== item && otherItem.classList.contains('active')) {
+                    //         otherItem.classList.remove('active');
+                    //         otherItem.querySelector('.accordion-toggle').textContent = '+';
+                    //     }
+                    // });
+
+                    // 切换当前点击的面板
+                    item.classList.toggle('active');
+                    if (item.classList.contains('active')) {
+                        toggle.textContent = '−'; // 使用更合适的减号
+                    } else {
+                        toggle.textContent = '+';
+                    }
+                });
+            });
+
+            // 可选：默认展开第一个或特定的面板
+            // if (accordionItems.length > 0) {
+            //     accordionItems[0].classList.add('active');
+            //     accordionItems[0].querySelector('.accordion-toggle').textContent = '−';
+            // }
+        });
+    </script>
+
+</body>
+</html>
