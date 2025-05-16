@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>运动带来的益处清单</title>
+    <title>运动带来的好处清单</title>
     <style>
         /* 全局样式 */
         body {
@@ -86,7 +86,7 @@
         }
 
         .accordion-item.active .accordion-toggle {
-            transform: rotate(45deg); /* 旋转成 "x" 的一部分，或者直接用 "−" */
+            transform: rotate(45deg);
         }
 
         .accordion-content {
@@ -97,6 +97,7 @@
         }
 
         .accordion-item.active .accordion-content {
+            /* max-height 设置一个足够大的值，确保内容能完全显示 */
             max-height: 1000px; /* 预估一个足够大的值 */
             padding: 15px 20px;
         }
@@ -177,7 +178,7 @@
 
     <div class="container">
         <header>
-            <h1>运动带来的益处清单</h1>
+            <h1>运动带来的好处清单</h1>
         </header>
 
         <div id="benefitsAccordion">
@@ -364,44 +365,28 @@
         document.addEventListener('DOMContentLoaded', function () {
             const accordionItems = document.querySelectorAll('.accordion-item');
 
-            // Helper function to open a specific item
-            function openItem(itemToOpen) {
-                itemToOpen.classList.add('active');
-                itemToOpen.querySelector('.accordion-toggle').textContent = '−'; // 使用减号
-            }
-
-            // Helper function to close a specific item
-            function closeItem(itemToClose) {
-                itemToClose.classList.remove('active');
-                itemToClose.querySelector('.accordion-toggle').textContent = '+';
-            }
-
-            accordionItems.forEach(currentItem => {
-                const header = currentItem.querySelector('.accordion-header');
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const toggle = item.querySelector('.accordion-toggle');
 
                 header.addEventListener('click', () => {
-                    const isCurrentlyActive = currentItem.classList.contains('active');
-
-                    // Close all other items
-                    accordionItems.forEach(item => {
-                        if (item !== currentItem) {
-                            closeItem(item);
+                    // 取消注释这段代码，实现手风琴效果
+                    accordionItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                            otherItem.querySelector('.accordion-toggle').textContent = '+';
                         }
                     });
 
-                    // Toggle the clicked item
-                    if (isCurrentlyActive) {
-                        closeItem(currentItem); // If it was active, close it
+                    // 切换当前点击的面板
+                    item.classList.toggle('active');
+                    if (item.classList.contains('active')) {
+                        toggle.textContent = '−';
                     } else {
-                        openItem(currentItem);  // If it was closed, open it
+                        toggle.textContent = '+';
                     }
                 });
             });
-
-            // Default: Open the first panel if it exists
-            if (accordionItems.length > 0) {
-                openItem(accordionItems[0]);
-            }
         });
     </script>
 
