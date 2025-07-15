@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美食分类指南</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS 变量，方便统一管理颜色 */
+        :root {
+            --primary-color: #e53935; /* 主色调：红色 */
+            --secondary-color: #ff9800; /* 次色调：橙色 */
+            --background-light: #f5f5f5; /* 浅背景色 */
+            --background-dark: #ffffff; /* 深背景色 */
+            --text-dark: #333333; /* 深文本色 */
+            --text-light: #666666; /* 浅文本色 */
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 卡片阴影 */
+        }
+
+        /* 全局样式 */
+        body {
+            font-family: 'Noto Sans SC', sans-serif; /* 使用思源黑体 */
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6; /* 行高，增加阅读舒适度 */
+        }
+
+        /* 页面容器 */
+        .container {
+            max-width: 1000px;
+            margin: 20px auto; /* 居中显示，上下留白 */
+            padding: 20px;
+            background-color: var(--background-dark);
+            border-radius: 12px; /* 圆角边框 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* 页面整体阴影 */
+        }
+
+        /* 页面头部 */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); /* 渐变背景 */
+            color: white;
+            border-radius: 10px 10px 0 0; /* 顶部圆角 */
+            margin: -20px -20px 20px -20px; /* 扩展到容器边缘 */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2); /* 标题阴影 */
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            opacity: 0.9; /* 稍透明 */
+        }
+
+        /* 各个分类的标题 */
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color); /* 底部橙色粗线 */
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-size: 2rem;
+        }
+
+        /* 卡片网格布局 */
+        .category-grid {
+            display: flex;
+            flex-wrap: wrap; /* 允许换行 */
+            gap: 20px; /* 卡片间距 */
+            margin-top: 20px;
+        }
+
+        /* 单个卡片样式 */
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            flex: 1 1 calc(33.333% - 40px); /* 默认三列布局，减去间距 */
+            box-sizing: border-box; /* 包含内边距和边框在宽度内 */
+            transition: transform 0.2s, box-shadow 0.2s; /* 鼠标悬停动画 */
+            border-left: 5px solid var(--primary-color); /* 左侧红色强调边框 */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* 向上浮动 */
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15); /* 阴影变大 */
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #eee; /* 子标题底部细线 */
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card h4 {
+            color: var(--text-dark);
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .card ul {
+            list-style-type: none; /* 移除默认列表点 */
+            padding: 0;
+            margin: 0;
+        }
+
+        .card li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #eee; /* 列表项虚线分隔 */
+            color: var(--text-light);
+        }
+
+        .card li:last-child {
+            border-bottom: none; /* 最后一个列表项无底线 */
+        }
+
+        /* 强调文字 */
+        .highlight {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* 底部提示信息 */
+        .note {
+            background-color: #fff8e1; /* 浅黄色背景 */
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color); /* 左侧橙色粗线 */
+            margin-top: 30px;
+            font-style: italic; /* 斜体 */
+        }
+
+        /* 响应式布局：小屏幕设备适配 */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 10px;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            .card {
+                flex: 1 1 100%; /* 小屏幕下卡片独占一行 */
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>美食分类指南</h1>
+        <p>不知道吃什么？这里有一份详细的常见饮食分类目录，希望能给你一些灵感。</p>
+    </header>
+
+    <main>
+        <h2 class="section-title">中式菜系</h2>
+        <p>中国饮食文化博大精深，各大菜系各有特色，总有一款能满足你的胃口。</p>
+
+        <h3>八大菜系</h3>
+        <div class="category-grid">
+
+            <div class="card">
+                <h3>川菜</h3>
+                <p>以麻辣鲜香为特色，味道浓郁。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>麻婆豆腐</li>
+                    <li>水煮肉片</li>
+                    <li>鱼香肉丝</li>
+                    <li>宫保鸡丁</li>
+                    <li>辣子鸡</li>
+                    <li>毛血旺</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>湘菜</h3>
+                <p>以酸辣和香辣为主，口味醇厚。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>剁椒鱼头</li>
+                    <li>农家小炒肉</li>
+                    <li>小炒黄牛肉</li>
+                    <li>辣椒炒肉</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>粤菜</h3>
+                <p>讲究食材原味，清淡鲜美，烹饪精细。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>白切鸡</li>
+                    <li>烧鹅</li>
+                    <li>豉汁蒸排骨</li>
+                    <li>虾饺</li>
+                    <li>肠粉</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>鲁菜</h3>
+                <p>历史悠久，以鲜咸为主，讲究火候和刀工。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>糖醋鲤鱼</li>
+                    <li>九转大肠</li>
+                    <li>德州扒鸡</li>
+                    <li>葱烧海参</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>苏菜</h3>
+                <p>注重原汁原味，口味清鲜，讲究刀工和摆盘。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>松鼠鳜鱼</li>
+                    <li>狮子头</li>
+                    <li>叫花鸡</li>
+                    <li>扬州炒饭</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>浙菜</h3>
+                <p>鲜香软糯，清淡爽滑，注重选料。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>西湖醋鱼</li>
+                    <li>龙井虾仁</li>
+                    <li>东坡肉</li>
+                    <li>叫化童鸡</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>徽菜</h3>
+                <p>重油重色，以烧炖为主，讲究原汁原味。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>臭鳜鱼</li>
+                    <li>徽州毛豆腐</li>
+                    <li>红烧果子狸</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>闽菜</h3>
+                <p>清鲜香醇，以海鲜和山珍为主要食材，善用汤。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>佛跳墙</li>
+                    <li>荔枝肉</li>
+                    <li>海蛎煎</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>其他特色中餐</h3>
+        <div class="category-grid">
+            <div class="card">
+                <h3>东北菜</h3>
+                <p>菜量大，口味浓郁，炖菜和酱菜是特色。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>锅包肉</li>
+                    <li>猪肉炖粉条</li>
+                    <li>小鸡炖蘑菇</li>
+                    <li>地三鲜</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>西北菜</h3>
+                <p>面食和牛羊肉是主打。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>陕西面食（油泼面、臊子面、biangbiang面、凉皮）</li>
+                    <li>羊肉泡馍、肉夹馍</li>
+                    <li>新疆大盘鸡、烤羊肉串、手抓饭</li>
+                    <li>兰州牛肉面</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>云南、贵州、湖北、豫菜</h3>
+                <p>各具特色，风味多元。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>云南：过桥米线、汽锅鸡</li>
+                    <li>贵州：酸汤鱼、肠旺面</li>
+                    <li>湖北：热干面、排骨藕汤、小龙虾</li>
+                    <li>豫菜：鲤鱼焙面、烩面、胡辣汤</li>
+                </ul>
+            </div>
+        </div>
+
+        ---
+
+        <h2 class="section-title">快餐简餐</h2>
+        <p>想快速解决一顿饭，快餐和简餐是你的好选择。</p>
+
+        <h3>西式快餐</h3>
+        <div class="category-grid">
+            <div class="card">
+                <h3>热门品牌</h3>
+                <ul>
+                    <li><span class="highlight">肯德基 (KFC)</span>: 炸鸡、汉堡、薯条、蛋挞</li>
+                    <li><span class="highlight">麦当劳 (McDonald's)</span>: 汉堡、薯条、麦乐鸡</li>
+                    <li><span class="highlight">汉堡王 (Burger King)</span>: 皇堡、薯条、洋葱圈</li>
+                    <li><span class="highlight">赛百味 (Subway)</span>: 三明治、沙拉</li>
+                    <li><span class="highlight">必胜客 (Pizza Hut) / 达美乐 (Domino's)</span>: 披萨、意面</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>中式快餐</h3>
+                <ul>
+                    <li><span class="highlight">各地小吃:</span> 饺子、包子、馄饨、米粉、面条、麻辣烫、酸辣粉、肉夹馍、煎饼果子</li>
+                    <li><span class="highlight">连锁快餐:</span> 真功夫、老乡鸡、永和大王等</li>
+                </ul>
+            </div>
+        </div>
+
+        ---
+
+        <h2 class="section-title">异国风味</h2>
+        <p>想尝试新鲜口味，不妨考虑这些异国美食。</p>
+        <div class="category-grid">
+            <div class="card">
+                <h3>日料</h3>
+                <p>精致清淡，注重食材原味。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>寿司、刺身、拉面、天妇罗</li>
+                    <li>寿喜烧、照烧鸡排</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>韩餐</h3>
+                <p>口味偏甜辣，菜品丰富。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>烤肉、炸鸡、部队锅</li>
+                    <li>石锅拌饭、泡菜汤、炒年糕</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>泰餐</h3>
+                <p>酸、甜、辣、咸、香五味平衡。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>冬阴功汤</li>
+                    <li>泰式咖喱、菠萝炒饭</li>
+                    <li>青木瓜沙拉</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>西餐</h3>
+                <p>种类繁多 (意餐、法餐、美餐)。</p>
+                <h4>招牌菜:</h4>
+                <ul>
+                    <li>意面、披萨、提拉米苏</li>
+                    <li>法式鹅肝、蜗牛</li>
+                    <li>美式牛排、汉堡、热狗</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>其他风味</h3>
+                <ul>
+                    <li><span class="highlight">东南亚菜:</span> 越南米粉、马来西亚肉骨茶、新加坡海南鸡饭</li>
+                    <li><span class="highlight">印度菜:</span> 咖喱、飞饼、烤肉</li>
+                </ul>
+            </div>
+        </div>
+
+        ---
+
+        <h2 class="section-title">饮品甜点</h2>
+        <p>吃完正餐，来点饮品和甜点是个不错的选择。</p>
+        <div class="category-grid">
+            <div class="card">
+                <h3>热门选择</h3>
+                <ul>
+                    <li><span class="highlight">咖啡店:</span> 星巴克、瑞幸咖啡、Costa (咖啡、茶饮、甜点)</li>
+                    <li><span class="highlight">奶茶店:</span> 喜茶、奈雪的茶、CoCo都可 (奶茶、果茶、纯茶)</li>
+                    <li><span class="highlight">甜品店:</span> 蛋糕、面包、布丁、冰淇淋、中式甜点 (双皮奶、芋圆、糖水)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="note">
+            希望这份详细的目录能帮助你在下次纠结吃什么的时候，快速找到心仪的美食！
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>
